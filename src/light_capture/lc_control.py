@@ -1,6 +1,6 @@
 import pyautogui as gui
 import time
-from asset import dic
+from .asset.dic import dic
 
 class lc_control():
 
@@ -57,8 +57,8 @@ class lc_control():
 
 
 # debug用
-lc_control.open_settings()
-path = str("C:\\Users\\goter\\Videos\\Captures")
-lc_control.change_destination(path)
+# lc_control.open_settings()
+# path = str("C:\\Users\\goter\\Videos\\Captures")
+# lc_control.change_destination(path)
 # lc_control.start_rec()
 # lc_control.stop_rec()

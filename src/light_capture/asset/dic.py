@@ -1,4 +1,4 @@
-asset_path = "./src/light-capture/asset/"
+asset_path = "./src/light_capture/asset/"
 
 dic = {
     "rec" : asset_path + "rec_button.png",
