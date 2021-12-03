@@ -44,7 +44,7 @@ class lc_control():
             # debug時はキャンセルボタンを押す
             # x,y = gui.locateCenterOnScreen(dic.get("ok"))
             x,y = gui.locateCenterOnScreen(dic.get("cancel"))
-            # gui.click(x,y)
+            gui.click(x,y)
             
         except Exception as e:
             lc_control.find_nothing(e)
@@ -58,7 +58,7 @@ class lc_control():
 
 # debug用
 lc_control.open_settings()
-str = str("C"+["shift", ":"]+"\\Users\\goter\\Videos\\Captures")
-lc_control.change_destination(str)
+path = str("C:\\Users\\goter\\Videos\\Captures")
+lc_control.change_destination(path)
 # lc_control.start_rec()
 # lc_control.stop_rec()
