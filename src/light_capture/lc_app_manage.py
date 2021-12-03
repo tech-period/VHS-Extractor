@@ -6,7 +6,7 @@ class lc_app_manage():
     path = "C:\\Program Files (x86)\\I-O DATA\\LightCapture\\LightCapture.exe"
 
     def stard_light_capture():
-        print(lc_app_manage().path)
+        print("LightCaptureを起動")
         sp.Popen(lc_app_manage().path)
 
 # debug用

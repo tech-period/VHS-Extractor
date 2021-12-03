@@ -6,54 +6,35 @@ class lc_control():
 
     # 録画開始
     def start_rec():
-        try:
-            x,y = gui.locateCenterOnScreen(dic.get("rec"))
-            gui.click(x,y)
-        except Exception as e:
-            lc_control.find_nothing(e)
+        lc_control.click_button("rec")
 
     # 録画終了
     def stop_rec():
-        try:
-            x,y = gui.locateCenterOnScreen(dic.get("stop"))
-            gui.click(x,y)
-        # except gui.raisePyAutoGUIImageNotFoundException as e:
-        #     print()
-        except Exception as e:
-            lc_control.find_nothing(e)
+        lc_control.click_button("stop")
 
     # 設定を開く
     def open_settings():
-        try:
-            x,y = gui.locateCenterOnScreen(dic.get("setting"))
-            gui.click(x,y)
-            # ダイアログが開くため、1秒待機
-            time.sleep(1)
-        except Exception as e:
-            lc_control.find_nothing(e)
+        lc_control.click_button("setting")
+        # ダイアログが開くため１秒待機
+        time.sleep(1)
 
     # 保存先を変更
     def change_destination(destination):
-        try:
-            # print(destination)
-            x,y = gui.locateCenterOnScreen(dic.get("destination"))
-            gui.click(x+200,y)
-            gui.hotkey('ctrl', 'a')
-            gui.write(destination)
-
-            # debug時はキャンセルボタンを押す
-            # x,y = gui.locateCenterOnScreen(dic.get("ok"))
-            x,y = gui.locateCenterOnScreen(dic.get("cancel"))
-            gui.click(x,y)
-            
-        except Exception as e:
-            lc_control.find_nothing(e)
+        lc_control.click_button("destination", 200, 0)
+        gui.hotkey('ctrl', 'a')
+        gui.write(destination)
+        lc_control.click_button("cancel")
 
     # アプリを閉じる
     def exit():
+        lc_control.click_button("exit")
+
+    # ボタンをクリックする
+    def click_button(key:str, add_x:int = 0, add_y:int = 0):
         try:
-            x,y = gui.locateCenterOnScreen(dic.get("exit"))
-            gui.click(x,y)
+            x,y = gui.locateCenterOnScreen(dic.get(key))
+            print("click "+key+" button")
+            gui.click(x+add_x, y+add_y)
         except Exception as e:
             lc_control.find_nothing(e)
 
@@ -61,8 +42,6 @@ class lc_control():
     def find_nothing(e):
         print("対象が見つかりませんでした")
         print(e)
-
-
 
 # debug用
 # lc_control.open_settings()
