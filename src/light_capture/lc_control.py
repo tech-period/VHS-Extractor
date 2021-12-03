@@ -49,6 +49,14 @@ class lc_control():
         except Exception as e:
             lc_control.find_nothing(e)
 
+    # アプリを閉じる
+    def exit():
+        try:
+            x,y = gui.locateCenterOnScreen(dic.get("exit"))
+            gui.click(x,y)
+        except Exception as e:
+            lc_control.find_nothing(e)
+
     # ボタン検出失敗時
     def find_nothing(e):
         print("対象が見つかりませんでした")

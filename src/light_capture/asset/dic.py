@@ -7,7 +7,7 @@ dic = {
     "destination" : asset_path + "destination.png",
     "ok" : asset_path + "ok_button.png",
     "cancel" : asset_path + "cancel_button.png",
-    "trashbox" : asset_path + "trashbox.png",
+    "exit" : asset_path + "exit_button.png",
 }
 
 def get(name):
