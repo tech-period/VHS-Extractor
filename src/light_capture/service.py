@@ -15,7 +15,11 @@ class service():
     # アプリを起動
     def stard_light_capture(self):
         print("LightCaptureを起動")
-        sp.Popen(self.app_path)
+        try:
+            sp.Popen(self.app_path)
+            # sp.Popen(self.app_path + "z")
+        except Exception as e:
+            print(e)
         print("wait 3 sec")
         time.sleep(3)
 
@@ -35,7 +39,7 @@ class service():
 
     # 保存先を変更
     def change_destination(self, destination):
-        self.__click_button("destination", 200, 0)
+        self.__click_button("destination",add_x=200, add_y=0)
         gui.hotkey('ctrl', 'a')
         gui.write(destination)
         self.__click_button("cancel")
@@ -45,22 +49,23 @@ class service():
         self.__click_button("exit")
 
     # ボタンをクリックする
-    def __click_button(self, key:str, add_x:int = 0, add_y:int = 0):
-        try:
-            x,y = gui.locateCenterOnScreen(self.dic.get(key))
-            print("click "+key+" button")
-            gui.click(x+add_x, y+add_y)
-        except Exception as e:
-            self.__find_nothing(e)
+    def __click_button(self, key:str, try_count:int = 3, add_x:int = 0, add_y:int = 0):
+        for tryCount in range(try_count):
+            tryCount += 1
+            print("try " + key + " button [" + str(tryCount) + "]")
+            try:
+                x,y = gui.locateCenterOnScreen(self.dic.get(key),grayscale=True)
+                print("click "+key+" button")
+                gui.click(x+add_x, y+add_y)
+                break
+            except Exception as e:
+                if(tryCount < try_count):
+                    print("button is not found. wait a sec")
+                    time.sleep(1)
+                    continue
+                else:
+                    self.__find_nothing()
 
     # ボタン検出失敗時
-    def __find_nothing(e):
-        print("対象が見つかりませんでした")
-        print(e)
-
-# debug用
-# lc_control.open_settings()
-# path = str("C:\\Users\\goter\\Videos\\Captures")
-# lc_control.change_destination(path)
-# lc_control.start_rec()
-# lc_control.stop_rec()
+    def __find_nothing(self):
+        print("タイムアウト：対象が見つかりませんでした")

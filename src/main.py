@@ -4,7 +4,7 @@ from switchbot.service import service as sb_service
 def main():
     # 各サービスをインスタンス化
     lc_srv = lc_service()
-    sb_srv = sb_service()
+    # sb_srv = sb_service()
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
@@ -20,8 +20,8 @@ def main():
     lc_srv.exit()
 
     # Switchbotを操作
-    sb_srv.execute_command("home", 3)
-    sb_srv.execute_command("enter", 1)
+    # sb_srv.execute_command("home", 3)
+    # sb_srv.execute_command("enter", 1)
 
 # root method
 if __name__ == "__main__":
