@@ -2,7 +2,7 @@ import pyautogui as gui
 import time
 import subprocess as sp
 
-from .asset.dic import dic
+from .dic import dic
 
 class service():
 
