@@ -55,7 +55,7 @@ class service():
             tryCount += 1
             print("try " + key + " button [" + str(tryCount) + "]")
             try:
-                x,y = gui.locateCenterOnScreen(self.dic.get(key),grayscale=True)
+                x,y = gui.locateCenterOnScreen(self.dic.get(key))
                 print("click "+key+" button")
                 gui.click(x+add_x, y+add_y)
                 break

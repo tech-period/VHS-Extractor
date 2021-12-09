@@ -4,6 +4,7 @@ class commands():
         self.command_list = {
         # <python側の呼び名>：<Andrroidアプリ側で設定したボタン名>
         # 基本コマンド
+        "power" : "電源",
         "home" : "ホーム",
         "enter" : "決定",
         # 矢印コマンド
