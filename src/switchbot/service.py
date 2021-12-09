@@ -22,7 +22,7 @@ class service():
         cmd = commands.commands()
         url = self.__body_base + "/" + self.bot_id[0] + "/commands"
         # コマンドをAPIサーバーにPOSTして指定時間待機する
-        requests.post(url, headers=self.__post_header, data=json.dumps(cmd.command_list[command_name]))
+        requests.post(url, headers=self.__post_header, data=json.dumps(cmd.get_command(command_name)))
         time.sleep(wait_time)
         print("The \"" + command_name + "\" command was executed, and wait " + str(wait_time) + "second")
 
