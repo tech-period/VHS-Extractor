@@ -1,6 +1,7 @@
-import pyautogui as gui
+import sys
 import time
 import subprocess as sp
+import pyautogui as gui
 
 from .dic import dic
 
@@ -17,11 +18,11 @@ class service():
         print("LightCaptureを起動")
         try:
             sp.Popen(self.app_path)
-            # sp.Popen(self.app_path + "z")
+            print("wait 3 sec")
+            time.sleep(3)
         except Exception as e:
             print(e)
-        print("wait 3 sec")
-        time.sleep(3)
+            sys.exit(0)
 
     # 録画開始
     def start_rec(self):
