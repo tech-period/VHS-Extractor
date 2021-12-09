@@ -1,12 +1,23 @@
 import pyautogui as gui
 import time
+import subprocess as sp
+
 from .asset.dic import dic
 
-class lc_control():
+class service():
 
     def __init__(self) -> None:
         # 操作一覧モデルをインスタンス化
         self.dic = dic()
+        # デフォルトのアプリインストールパス
+        self.app_path = "C:\\Program Files (x86)\\I-O DATA\\LightCapture\\LightCapture.exe"
+
+    # アプリを起動
+    def stard_light_capture(self):
+        print("LightCaptureを起動")
+        sp.Popen(self.app_path)
+        print("wait 3 sec")
+        time.sleep(3)
 
     # 録画開始
     def start_rec(self):
