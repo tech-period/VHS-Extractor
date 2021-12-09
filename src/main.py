@@ -20,12 +20,14 @@ def main():
     # lc_srv.change_destination(path)
 
     # Switchbotを操作
-    sb_srv.execute_command("power", 20)
+    sb_srv.execute_command("power", 15)
 
     sb_srv.execute_command("power", 10)
 
-    # アプリを閉じる
-    lc_srv.exit()
+    # 録画の自動終了を監視
+    if lc_srv.check_end_rec():
+        # アプリを閉じる
+        lc_srv.exit()
 
 # root method
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ class dic():
             # 操作名：対応画像
             "rec" : "rec_button.png",
             "stop" : "stop_button.png",
+            "finished" : "finished_rec_button.png",
             "setting" : "setting_button.png",
             "destination" : "destination.png",
             "ok" : "ok_button.png",

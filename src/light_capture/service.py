@@ -49,6 +49,25 @@ class service():
     def exit(self):
         self.__click_button("exit")
 
+    # 録画終了を監視
+    def check_end_rec(self, try_count:int = 3600) -> bool:
+        for tryCount in range(try_count):
+            tryCount += 1
+            print("checking the end of recording [" + str(tryCount) + "]")
+            try:
+                x,y = gui.locateCenterOnScreen(self.dic.get("finished"))
+                print("detected the end of recording")
+                break
+            except Exception as e:
+                if(tryCount < try_count):
+                    print("recording...")
+                    time.sleep(9)
+                    continue
+                else:
+                    print(e)
+                    return False
+        return True
+
     # ボタンをクリックする
     def __click_button(self, key:str, try_count:int = 3, add_x:int = 0, add_y:int = 0):
         for tryCount in range(try_count):
