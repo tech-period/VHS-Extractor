@@ -1,27 +1,28 @@
-import time
-
-from light_capture.lc_app_manage import lc_app_manage
-from light_capture.lc_control import lc_control
+from light_capture.service import service as lc_service
+from switchbot.service import service as sb_service
 
 def main():
     # 各サービスをインスタンス化
-    lc_cnt = lc_control()
+    lc_srv = lc_service()
+    sb_srv = sb_service()
 
     # LightCaptureを起動
-    lc_app_manage.stard_light_capture()
+    lc_srv.stard_light_capture()
 
-    print("wait 3 sec")
-    time.sleep(3)
-
-    # LightCaptureを起動
-    lc_cnt.open_settings()
+    # 設定画面を開く
+    lc_srv.open_settings()
 
     # 保存先を変更
     path = str("C:\\Users\\goter\\Videos\\Captures")
-    lc_cnt.change_destination(path)
+    lc_srv.change_destination(path)
 
     # アプリを閉じる
-    lc_cnt.exit()
+    lc_srv.exit()
 
+    # Switchbotを操作
+    sb_srv.execute_command("home", 3)
+    sb_srv.execute_command("enter", 1)
+
+# root method
 if __name__ == "__main__":
     main()
