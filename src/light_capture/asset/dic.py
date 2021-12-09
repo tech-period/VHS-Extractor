@@ -1,14 +1,18 @@
-asset_path = "./src/light_capture/asset/"
+class dic():
 
-dic = {
-    "rec" : asset_path + "rec_button.png",
-    "stop" : asset_path + "stop_button.png",
-    "setting" : asset_path + "setting_button.png",
-    "destination" : asset_path + "destination.png",
-    "ok" : asset_path + "ok_button.png",
-    "cancel" : asset_path + "cancel_button.png",
-    "exit" : asset_path + "exit_button.png",
-}
+    def __init__(self) -> None:
+        self.__asset_path = "./src/light_capture/asset/"
+        self.__dic = {
+            # 操作名：対応画像
+            "rec" : "rec_button.png",
+            "stop" : "stop_button.png",
+            "setting" : "setting_button.png",
+            "destination" : "destination.png",
+            "ok" : "ok_button.png",
+            "cancel" : "cancel_button.png",
+            "exit" : "exit_button.png",
+        }
 
-def get(name):
-    return dic[name]
+    # getter
+    def get(self, name:str) -> str:
+        return self.__asset_path + self.__dic[name]

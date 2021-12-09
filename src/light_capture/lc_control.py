@@ -32,7 +32,8 @@ class lc_control():
     # ボタンをクリックする
     def click_button(key:str, add_x:int = 0, add_y:int = 0):
         try:
-            x,y = gui.locateCenterOnScreen(dic.get(key))
+            d = dic()
+            x,y = gui.locateCenterOnScreen(d.get(key))
             print("click "+key+" button")
             gui.click(x+add_x, y+add_y)
         except Exception as e:
