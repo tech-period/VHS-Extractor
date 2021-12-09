@@ -4,6 +4,8 @@ from light_capture.lc_app_manage import lc_app_manage
 from light_capture.lc_control import lc_control
 
 def main():
+    # 各サービスをインスタンス化
+    lc_cnt = lc_control()
 
     # LightCaptureを起動
     lc_app_manage.stard_light_capture()
@@ -12,14 +14,14 @@ def main():
     time.sleep(3)
 
     # LightCaptureを起動
-    lc_control.open_settings()
+    lc_cnt.open_settings()
 
     # 保存先を変更
     path = str("C:\\Users\\goter\\Videos\\Captures")
-    lc_control.change_destination(path)
+    lc_cnt.change_destination(path)
 
     # アプリを閉じる
-    lc_control.exit()
+    lc_cnt.exit()
 
 if __name__ == "__main__":
     main()
