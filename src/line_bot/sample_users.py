@@ -13,5 +13,5 @@ class users():
 
     # All getter
     def get_users(self):
-        return self.__users.values
+        return self.__users.values()
         

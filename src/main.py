@@ -31,9 +31,12 @@ def main():
         # アプリを閉じる
         lc_srv.exit()
 
-    lb_service.push_message("VHSのデータ化が完了しました")
+    lb_srv.push_message("VHSのデータ化が完了しました")
 
 def test():
+    # 各サービスをインスタンス化
+    # lc_srv = lc_service()
+    # sb_srv = sb_service()
     lb_srv = lb_service()
     lb_srv.push_message("おテストおメッセージその１")
     lb_srv.push_message("おテストおメッセージその２")
