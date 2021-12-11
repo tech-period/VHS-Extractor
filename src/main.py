@@ -35,7 +35,8 @@ def main():
 
 def test():
     lb_srv = lb_service()
-    lb_srv.push_message("おテストおメッセージ")
+    lb_srv.push_message("おテストおメッセージその１")
+    lb_srv.push_message("おテストおメッセージその２")
 
 # root method
 if __name__ == "__main__":
