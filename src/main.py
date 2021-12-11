@@ -33,6 +33,11 @@ def main():
 
     lb_service.push_message("VHSのデータ化が完了しました")
 
+def test():
+    lb_srv = lb_service()
+    lb_srv.push_message("おテストおメッセージ")
+
 # root method
 if __name__ == "__main__":
-    main()
+    # main()
+    test()

@@ -1,7 +1,9 @@
 class users():
     def __init__(self) -> None:
         self.__users = {
-            "name" : "id",
+            "name" : "user_id",
+            "name" : "user_id",
+            "name" : "user_id",
         }
     
     # Single getter

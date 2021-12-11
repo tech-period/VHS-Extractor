@@ -115,3 +115,7 @@ dmypy.json
 
 # private token
 token.py
+
+# line bot's user id
+users.py
+
