@@ -1,10 +1,12 @@
 from light_capture.service import service as lc_service
 from switchbot.service import service as sb_service
+from line_bot.service import service as lb_service
 
 def main():
     # 各サービスをインスタンス化
     lc_srv = lc_service()
     sb_srv = sb_service()
+    lb_srv = lb_service()
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
@@ -28,6 +30,8 @@ def main():
     if lc_srv.check_end_rec():
         # アプリを閉じる
         lc_srv.exit()
+
+    lb_service.push_message("VHSのデータ化が完了しました")
 
 # root method
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ class users():
         }
     
     # Single getter
-    def get_use(self,name:str) -> str:
+    def get_user(self,name:str) -> str:
         user = self.__users[name]
         return user
 
