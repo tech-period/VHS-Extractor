@@ -1,6 +1,8 @@
-from .view import view
+import os
 
 class service():
     def __init__(self) -> None:
-        self.view = view()
+        pass
 
+    def get_drives(self):
+        return [ chr(x) + ":" for x in range(65,90) if os.path.exists(chr(x) + ":") ]
