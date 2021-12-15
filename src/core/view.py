@@ -16,6 +16,7 @@ class view():
         chk_box_state = [tkinter.BooleanVar(),tkinter.BooleanVar()]
         self.label_title = [tkinter.Label(win),tkinter.Label(win)]
         self.entry_box = [tkinter.Entry(),tkinter.Entry()]
+        button_exe = tkinter.Button(win, text="実行", width=20, command=self.exe_app)
         for i in range(2):
             chk_box_state[i].set(self.chk_flag[i])
             self.label_title[i].config(text='タイトル', justify='left', state=self.get_state(self.chk_flag[i]))
@@ -25,6 +26,7 @@ class view():
         def change_state(num:int,bool:bool):
             self.label_title[num].config(state=self.get_state(bool))
             self.entry_box[num].config(state=self.get_state(bool))
+            button_exe.config(state=self.get_state(chk_box_state[0].get() or chk_box_state[1].get()))
 
         # サイズ設定(16:9)
         win_size = [520,270]
@@ -77,7 +79,6 @@ class view():
 
         # ToDo -> 8mmとVHSの両方にチェックがついていない場合はstateをdisableに変更する
         pos = [5,0]
-        button_exe = tkinter.Button(win, text="実行", width=20, state='normal', command=self.exe_app)
         button_exe.grid(row=pos[0], column=pos[1], padx=5, pady= 15, sticky=tkinter.W)
 
         # ウィンドウのループ処理
