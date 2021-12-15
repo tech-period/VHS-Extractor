@@ -9,27 +9,22 @@ class view():
     def __init__(self) -> None:
         # ウィンドウの作成
         win = tkinter.Tk()
+        win.title('VHS Extractor')
 
-        # 変数
-        # チェックボックス
+        # オブジェクトの定義
+        label_drive = tkinter.Label(win, text='保存先ドライブ', justify='left')
         chk_box_state = [tkinter.BooleanVar(),tkinter.BooleanVar()]
-        chk_box_state[0].set(self.chk_flag[0])
-        chk_box_state[1].set(self.chk_flag[1])
-        # ラベル
         self.label_title = [tkinter.Label(win),tkinter.Label(win)]
-        self.label_title[0].config(text='タイトル', justify='left', state=self.get_state(self.chk_flag[0]))
-        self.label_title[1].config(text='タイトル', justify='left', state=self.get_state(self.chk_flag[1]))
-        # 入力ボックス
         self.entry_box = [tkinter.Entry(),tkinter.Entry()]
-        self.entry_box[0].config(state=self.get_state(self.chk_flag[0]))
-        self.entry_box[1].config(state=self.get_state(self.chk_flag[1]))
-        # チェックボタン押下時
+        for i in range(2):
+            chk_box_state[i].set(self.chk_flag[i])
+            self.label_title[i].config(text='タイトル', justify='left', state=self.get_state(self.chk_flag[i]))
+            self.entry_box[i].config(state=self.get_state(self.chk_flag[i]))
+
+        # チェックボタン押下時処理
         def change_state(num:int,bool:bool):
             self.label_title[num].config(state=self.get_state(bool))
             self.entry_box[num].config(state=self.get_state(bool))
-
-        # 基本項目
-        win.title('VHS Extractor')
 
         # サイズ設定(16:9)
         win_size = [520,270]
@@ -46,7 +41,6 @@ class view():
         
         # 画面構成
         pos = [0,0]
-        label_drive = tkinter.Label(win, text='保存先ドライブ', justify='left')
         label_drive.grid(row=pos[0], column=pos[1], padx= 10, pady= 10, sticky=tkinter.W)
         
         pos = [1,0]
