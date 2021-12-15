@@ -37,13 +37,13 @@ def main():
 
 def test():
     # 各サービスをインスタンス化
-    # core_srv = core_service()
+    core_srv = core_service()
     # lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
     # lb_srv.push_message("おテストおメッセージその１")
     # lb_srv.push_message("おテストおメッセージその２")
-    pass
+    # pass
 
 # root method
 if __name__ == "__main__":

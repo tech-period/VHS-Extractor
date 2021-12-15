@@ -1,6 +1,6 @@
-
+from .view import view
 
 class service():
     def __init__(self) -> None:
-        pass
+        self.view = view()
 
