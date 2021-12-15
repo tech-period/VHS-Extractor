@@ -1,9 +1,11 @@
+from core.service import service as core_service
 from light_capture.service import service as lc_service
-from switchbot.service import service as sb_service
 from line_bot.service import service as lb_service
+from switchbot.service import service as sb_service
 
 def main():
     # 各サービスをインスタンス化
+    core_srv = core_service()
     lc_srv = lc_service()
     sb_srv = sb_service()
     lb_srv = lb_service()
@@ -35,11 +37,13 @@ def main():
 
 def test():
     # 各サービスをインスタンス化
+    # core_srv = core_service()
     # lc_srv = lc_service()
     # sb_srv = sb_service()
-    lb_srv = lb_service()
-    lb_srv.push_message("おテストおメッセージその１")
-    lb_srv.push_message("おテストおメッセージその２")
+    # lb_srv = lb_service()
+    # lb_srv.push_message("おテストおメッセージその１")
+    # lb_srv.push_message("おテストおメッセージその２")
+    pass
 
 # root method
 if __name__ == "__main__":
