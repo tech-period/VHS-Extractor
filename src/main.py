@@ -5,8 +5,12 @@ from line_bot.service import service as lb_service
 from switchbot.service import service as sb_service
 
 def main():
-    # 各サービスをインスタンス化
     view = v()
+    if not view.exe_flag:
+        print("実行せずに終了")
+        exit()
+    
+    # 各サービスをインスタンス化
     core_srv = core_service()
     lc_srv = lc_service()
     sb_srv = sb_service()
@@ -38,15 +42,19 @@ def main():
     lb_srv.push_message("VHSのデータ化が完了しました")
 
 def test():
-    # 各サービスをインスタンス化
     view = v()
+    if not view.exe_flag:
+        print("実行せずに終了")
+        exit()
+        
+    print("Appを実行")
+    # 各サービスをインスタンス化
     core_srv = core_service()
     # lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
     # lb_srv.push_message("おテストおメッセージその１")
     # lb_srv.push_message("おテストおメッセージその２")
-    # pass
 
 # root method
 if __name__ == "__main__":
