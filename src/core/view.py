@@ -15,7 +15,7 @@ class view():
         self.win.title('VHS Extractor')
 
         # サイズ設定(16:9想定)[width:height]
-        self.win_size = [520,270]
+        self.win_size = [400,230]
         self.win.geometry("{0[0]}x{0[1]}+{0[2]}+{0[3]}".format(self.win_size + self.get_center_position()))
 
         # 初期のチェック状態
