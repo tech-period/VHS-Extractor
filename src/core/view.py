@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk as ttk
 
 from .service import service as service
+from .entity import entity
 
 class view():
     # 実行可否
@@ -10,6 +11,7 @@ class view():
     def __init__(self) -> None:
         # サービスのインスタンス化
         srv = service()
+        self.e = entity()
         # ウィンドウの作成
         self.win = tkinter.Tk()
         self.win.title('VHS Extractor')
@@ -38,9 +40,14 @@ class view():
         pos = [1,0]
         # 有効なドライブの一覧をサービスから取得してドロップダウンリストにセット
         drives = srv.get_drives()
-        dropdown_box = ttk.Combobox(self.win, values=drives, width=5, state='disable' if len(drives) <= 1 else 'readonly')
-        dropdown_box.current(0)
-        dropdown_box.grid(row=pos[0], column=pos[1], padx= 10, sticky=tkinter.W)
+        self.dropdown_box = ttk.Combobox(self.win, values=drives, width=5, state='disable' if len(drives) <= 1 else 'readonly')
+        # 前回選択されていたドライブが含まれていたらそのドライブを初期表示する
+        last_drive = self.e.get('drive')
+        if last_drive in drives:
+            self.dropdown_box.current(drives.index(last_drive))
+        else:
+            self.dropdown_box.current(0)
+        self.dropdown_box.grid(row=pos[0], column=pos[1], padx= 10, sticky=tkinter.W)
 
         # １列目
         pos = [2,0]
@@ -89,4 +96,7 @@ class view():
         self.exe_flag = True
         self.win.quit()
         print("実行ボタンが押されました")
+        print("選択されているドライブを保存します["+self.dropdown_box.get() + "]")
+        self.e.set('drive', self.dropdown_box.get())
+        self.e.close()
 
