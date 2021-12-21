@@ -43,7 +43,7 @@ def main():
 
 def test():
     # view = v()
-    # if not view.exe_flag:
+    # if view.exe_flag == False:
     #     print("実行せずに終了")
     #     exit()
         
@@ -55,7 +55,7 @@ def test():
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
-    # ダウンロードフォルダ内のファイルを表示
+    # ダウンロードフォルダ内で最後に作成されたファイルをコピー
     file_path = core_srv.get_last_file("C:\\Users\\goter\\Downloads")
     core_srv.copy_made_file(file_path, "D:", "8mm")
     # lb_srv.push_message("おテストおメッセージその１")

@@ -30,7 +30,7 @@ class service():
         tar_path = drive + "\\ビデオテープ\\" + type
         base_name = os.path.basename(file_path)
         # フォルダが存在しない場合は新規作成
-        if not os.path.exists(tar_path): os.makedirs(tar_path)
+        if os.path.exists(tar_path) == False : os.makedirs(tar_path)
         # 同名ファイルが存在する場合は連番を付ける
         if os.path.exists(tar_path + "\\" + base_name):
             name, ext = os.path.splitext(base_name)
