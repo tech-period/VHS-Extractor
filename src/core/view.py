@@ -35,9 +35,6 @@ class view():
         self.win_size = [400,230]
         self.win.geometry("{0[0]}x{0[1]}+{0[2]}+{0[3]}".format(self.win_size + self.get_center_position()))
 
-        # 初期のチェック状態
-        chk_flag = [True,False]
-
         # オブジェクトの定義
         label_drive = tkinter.Label(self.win, text='保存先ドライブ', justify='left')
         self.chk_box_state = [tkinter.BooleanVar(),tkinter.BooleanVar()]
@@ -45,9 +42,9 @@ class view():
         self.entry_box = [tkinter.Entry(),tkinter.Entry()]
         self.button_exe = tkinter.Button(self.win, text="実行", width=20, command=self.exe_app)
         for i in range(2):
-            self.chk_box_state[i].set(chk_flag[i])
-            self.label_title[i].config(text='タイトル', justify='left', state=self.get_state(chk_flag[i]))
-            self.entry_box[i].config(state=self.get_state(chk_flag[i]))
+            self.chk_box_state[i].set(self.info['conditions'][i]['check'])
+            self.label_title[i].config(text='タイトル', justify='left', state=self.get_state(self.info['conditions'][i]['check']))
+            self.entry_box[i].config(state=self.get_state(self.info['conditions'][i]['check']))
         
         # 画面構成（オブジェクトの位置を確定）
         pos = [0,0]
