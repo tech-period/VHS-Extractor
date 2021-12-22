@@ -42,12 +42,12 @@ def main():
     lb_srv.push_message("VHSのデータ化が完了しました")
 
 def test():
-    # view = v()
-    # if view.exe_flag == False:
-    #     print("実行せずに終了")
-    #     exit()
+    view = v()
+    if view.info['flag'] == False:
+        print("実行せずに終了")
+        exit()
         
-    # print("Appを実行")
+    print("Appを実行")
     
     # 各サービスをインスタンス化
     core_srv = core_service()
@@ -56,8 +56,8 @@ def test():
     # lb_srv = lb_service()
 
     # ダウンロードフォルダ内で最後に作成されたファイルをコピー
-    file_path = core_srv.get_last_file("C:\\Users\\goter\\Downloads")
-    core_srv.copy_made_file(file_path, "D:", "8mm")
+    # file_path = core_srv.get_last_file("C:\\Users\\goter\\Downloads")
+    # core_srv.copy_made_file(file_path, "D:", "8mm")
     # lb_srv.push_message("おテストおメッセージその１")
     # lb_srv.push_message("おテストおメッセージその２")
 

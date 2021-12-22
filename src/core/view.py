@@ -5,8 +5,23 @@ from .service import service as service
 from .entity import entity
 
 class view():
-    # 実行可否
-    exe_flag = False
+    # 各種情報
+    info = {
+        'drive':'',
+        'flag':False,
+        'conditions':[
+            {
+                'type':'8mm, miniDV',
+                'check':True,
+                'name':'',
+            },
+            {
+                'type':'VHS',
+                'check':False,
+                'name':'',
+            },
+        ]
+    }
 
     def __init__(self) -> None:
         # サービスのインスタンス化
@@ -93,7 +108,7 @@ class view():
 
     # イベント処理
     def exe_app(self):
-        self.exe_flag = True
+        self.info['flag'] = True
         self.win.quit()
         print("実行ボタンが押されました")
         print("選択されているドライブを保存します["+self.dropdown_box.get() + "]")
