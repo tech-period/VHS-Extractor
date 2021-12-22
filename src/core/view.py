@@ -108,6 +108,7 @@ class view():
         self.info['flag'] = True
         self.win.quit()
         print("実行ボタンが押されました")
+        self.info['drive'] = self.dropdown_box.get()
         print("選択されているドライブを保存します["+self.dropdown_box.get() + "]")
         self.e.set('drive', self.dropdown_box.get())
         self.e.close()
