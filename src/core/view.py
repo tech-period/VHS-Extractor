@@ -27,6 +27,16 @@ class view():
         # サービスのインスタンス化
         srv = service()
         self.e = entity()
+
+        # 前回条件のロード
+        print('前回条件のロード')
+        self.info['drive'] = self.e.get('drive')
+        print('drive : '+ self.info['drive'])
+        for i in range(2):
+            self.info['conditions'][i]['type'] = self.e.get('type',i)
+            self.info['conditions'][i]['check'] = self.e.get('check',i)
+            print('conditions : '+ self.info['conditions'][i]['type'])
+            print('conditions : '+ str(self.info['conditions'][i]['check']))
         # ウィンドウの作成
         self.win = tkinter.Tk()
         self.win.title('VHS Extractor')
