@@ -63,7 +63,7 @@ class view():
 
         # １列目
         pos = [2,0]
-        chkbox = tkinter.Checkbutton(self.win, text='8mm, miniDV', variable=self.chk_box_state[0], command=lambda: self.change_state(int(0),self.chk_box_state[0].get()))
+        chkbox = tkinter.Checkbutton(self.win, text=self.info['conditions'][0]['type'], variable=self.chk_box_state[0], command=lambda: self.change_state(int(0),self.chk_box_state[0].get()))
         chkbox.grid(row=pos[0], column=pos[1], padx=10, pady= (20,0), sticky=tkinter.W)
         pos = [3,0]
         self.label_title[0].grid(row=pos[0], column=pos[1], padx= 5, sticky=tkinter.W)
@@ -72,7 +72,7 @@ class view():
 
         # ２列目
         pos = [2,1]
-        chkbox = tkinter.Checkbutton(self.win, text='VHS', variable=self.chk_box_state[1], command=lambda: self.change_state(int(1), self.chk_box_state[1].get()))
+        chkbox = tkinter.Checkbutton(self.win, text=self.info['conditions'][1]['type'], variable=self.chk_box_state[1], command=lambda: self.change_state(int(1), self.chk_box_state[1].get()))
         chkbox.grid(row=pos[0], column=pos[1], padx=(10,0), pady= (20,0), sticky=tkinter.W)
         pos = [3,1]
         self.label_title[1].grid(row=pos[0], column=pos[1], padx= 5, sticky=tkinter.W)
