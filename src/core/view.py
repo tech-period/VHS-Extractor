@@ -29,14 +29,10 @@ class view():
         self.e = entity()
 
         # 前回条件のロード
-        print('前回条件のロード')
         self.info['drive'] = self.e.get('drive')
-        print('drive : '+ self.info['drive'])
         for i in range(2):
             self.info['conditions'][i]['type'] = self.e.get('type',i)
             self.info['conditions'][i]['check'] = self.e.get('check',i)
-            print('conditions : '+ self.info['conditions'][i]['type'])
-            print('conditions : '+ str(self.info['conditions'][i]['check']))
         # ウィンドウの作成
         self.win = tkinter.Tk()
         self.win.title('VHS Extractor')
@@ -115,15 +111,18 @@ class view():
 
     # イベント処理
     def exe_app(self):
-        self.info['flag'] = True
-        self.win.quit()
         print("実行ボタンが押されました")
+        self.info['flag'] = True
+        # infoとエンティティに格納
         self.info['drive'] = self.dropdown_box.get()
-        # 保存名をinfoに格納
+        self.e.set('drive', self.dropdown_box.get())
         for i in range(2):
             self.info['conditions'][i]['name'] = self.entry_box[i].get()
-            print("ファイル名："+self.info['conditions'][i]['name'])
-        print("選択されているドライブを保存します["+self.dropdown_box.get() + "]")
-        self.e.set('drive', self.dropdown_box.get())
+            self.info['conditions'][i]['check'] = self.chk_box_state[i].get()
+            self.e.set('type', self.info['conditions'][i]['type'], i)
+            self.e.set('check', self.info['conditions'][i]['check'], i)
         self.e.close()
+
+        # ウィンドウを閉じる
+        self.win.quit()
 
