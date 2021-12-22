@@ -109,6 +109,10 @@ class view():
         self.win.quit()
         print("実行ボタンが押されました")
         self.info['drive'] = self.dropdown_box.get()
+        # 保存名をinfoに格納
+        for i in range(2):
+            self.info['conditions'][i]['name'] = self.entry_box[i].get()
+            print("ファイル名："+self.info['conditions'][i]['name'])
         print("選択されているドライブを保存します["+self.dropdown_box.get() + "]")
         self.e.set('drive', self.dropdown_box.get())
         self.e.close()
