@@ -13,13 +13,20 @@ class entity():
             }
         print("前回条件")
         print(self.entity['data']['drive'])
-        print(self.entity['data']['path'])
+        print(self.entity['data']['conditions'])
         # self.path = self.entity_data['path']
         # self.check_condition = self.entity_data['check_condition']
     
-    def get(self, key:str) -> str:
+    def get(self, key:str, num:int = 0):
         result = str()
-        return self.entity['data'][key]
+        if key == 'drive':
+            result = self.entity['data'][key]
+        elif key == 'type' or key == 'check':
+            result = self.entity['data']['conditions'][num][key]
+        else:
+            print('not found entity field')
+            result = None
+        return result
 
     def set(self, key, data) -> None:
         locall_data = self.entity['data']
