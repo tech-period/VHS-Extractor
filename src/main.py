@@ -1,4 +1,4 @@
-from logging import basicConfig, DEBUG, INFO, WARNING
+from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 
 from core.view import view as v
 from core.service import service as core_service
@@ -65,8 +65,12 @@ def test():
 
 # root method
 if __name__ == "__main__":
-    formatter = '%(asctime)s:%(message)s'
-    basicConfig(filename='logs.log', format=formatter, level=DEBUG)
+    # ログ設定
+    stream_handler = StreamHandler()
+    stream_handler.setFormatter(Formatter('[%(levelname)s]%(message)s'))
+    file_handler = FileHandler(f"logs.log")
+    file_handler.setFormatter(Formatter('%(asctime)s:[%(levelname)s]%(message)s'))
+    basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
 
     # main()
     test()
