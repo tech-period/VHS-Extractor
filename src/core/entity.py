@@ -4,7 +4,9 @@ class entity():
     def __init__(self) -> None:
         self.entity = shelve.open('entity')
         # if True:
-        if self.entity['data'] == None:
+        try:
+            self.entity['data']
+        except:
             self.entity['data'] = {
                 'drive' : 'C:',
                 'conditions': [
