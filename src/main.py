@@ -57,6 +57,19 @@ def test():
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
+    # LightCaptureを起動
+    lc_srv.stard_light_capture()
+
+    # light captureの起動を確認
+    if lc_srv.check_run() == False:
+        # lb_srv.push_message("Light Captureアプリの起動に失敗しました"
+        #                     +"\n以下の状態を確認してください"
+        #                     +"\n・機器に接続されているかどうか"
+        #                     +"\n・画面上にアプリの画面がない（設定ボタンが隠れていると認識しません）"
+        #                     +"\n・アプリの更新等のメッセージで止まっている")
+        exit()
+
+    # 録画開始
     exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
     for i in range(2):
         if exe_flag[i] == False: continue

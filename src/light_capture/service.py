@@ -29,6 +29,19 @@ class service():
             self.logger.info(e)
             sys.exit(0)
 
+    # アプリの起動確認
+    def check_run(self) -> bool:
+        self.logger.info("check startup")
+        result = False
+        # 画面上に設定ボタンがあるかどうかで起動を判定
+        try:
+            x,y = gui.locateCenterOnScreen(self.dic.get("setting"))
+            self.logger.info("startup succeeded")
+            result = True
+        except:
+            self.logger.error("startup failed")
+        return result
+
     # 録画開始
     def start_rec(self):
         self.__click_button("rec")
