@@ -1,3 +1,5 @@
+from logging import basicConfig, DEBUG, INFO, WARNING
+
 from core.view import view as v
 from core.service import service as core_service
 from light_capture.service import service as lc_service
@@ -63,5 +65,8 @@ def test():
 
 # root method
 if __name__ == "__main__":
+    formatter = '%(asctime)s:%(message)s'
+    basicConfig(filename='logs.log', format=formatter, level=DEBUG)
+
     # main()
     test()
