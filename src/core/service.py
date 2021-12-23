@@ -25,7 +25,7 @@ class service():
             return file_path
         else:
             # フォルダが存在しない場合は例外を投げる
-            self.logger.exception('not found files')
+            self.logger.error('not found files')
             raise FileNotFoundError
 
     def copy_made_file(self, file_path:str, drive:str, type:str, save_name:str) -> None:

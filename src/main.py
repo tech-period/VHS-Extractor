@@ -70,19 +70,27 @@ def test():
         exit()
 
     # 録画開始
-    exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
-    for i in range(2):
-        if exe_flag[i] == False: continue
-        file_path = core_srv.get_last_file(lc_srv.default_download_path)
-        core_srv.copy_made_file(file_path,
-                                view.info['drive'],
-                                view.info['conditions'][i]['type'],
-                                view.info['conditions'][i]['name'])
-        # lb_srv.push_message("ビデオの抽出が完了しました"
-        #                     +"\nビデオ形式："+view.info['conditions'][i]['type']
-        #                     +"\nファイル名："+view.info['conditions'][i]['name'])
-        # if i == 0 and exe_flag[i+1]:
-        #     lb_srv.push_message("続けて"+view.info['conditions'][i+1]['type']+"の抽出を開始します")
+    try:
+        exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
+        for i in range(2):
+            if exe_flag[i] == False: continue
+            file_path = core_srv.get_last_file(lc_srv.default_download_path)
+            core_srv.copy_made_file(file_path,
+                                    view.info['drive'],
+                                    view.info['conditions'][i]['type'],
+                                    view.info['conditions'][i]['name'])
+            # lb_srv.push_message("ビデオの抽出が完了しました"
+            #                     +"\nビデオ形式："+view.info['conditions'][i]['type']
+            #                     +"\nファイル名："+view.info['conditions'][i]['name'])
+            # if i == 0 and exe_flag[i+1]:
+            #     lb_srv.push_message("続けて"+view.info['conditions'][i+1]['type']+"の抽出を開始します")
+    except Exception as e:
+        logger.exception('catched exception')
+        # lb_srv.push_message('録画中にエラーが発生したため、アプリが途中で終了しました'
+        #                     +'\n管理者にお問い合わせください')
+        logger.info('exit application with exception')
+        lc_srv.exit()
+        exit()
 
 # root method
 if __name__ == "__main__":
