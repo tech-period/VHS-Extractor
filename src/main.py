@@ -1,10 +1,19 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
+from logging import getLogger
 
 from core.view import view as v
 from core.service import service as core_service
 from light_capture.service import service as lc_service
 from line_bot.service import service as lb_service
 from switchbot.service import service as sb_service
+
+# ログ設定
+stream_handler = StreamHandler()
+stream_handler.setFormatter(Formatter('[%(levelname)s]%(message)s'))
+file_handler = FileHandler(f"logs.log")
+file_handler.setFormatter(Formatter('%(asctime)s:[%(levelname)s]%(message)s'))
+basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
+logger = getLogger(__name__)
 
 def main():
     view = v()
@@ -45,15 +54,10 @@ def main():
 
 def test():
     view = v()
-    if view.info['flag'] == False:
-        print("実行せずに終了")
-        exit()
-        
-    print("Appを実行")
     
     # 各サービスをインスタンス化
-    core_srv = core_service()
-    # lc_srv = lc_service()
+    # core_srv = core_service()
+    lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
@@ -65,12 +69,7 @@ def test():
 
 # root method
 if __name__ == "__main__":
-    # ログ設定
-    stream_handler = StreamHandler()
-    stream_handler.setFormatter(Formatter('[%(levelname)s]%(message)s'))
-    file_handler = FileHandler(f"logs.log")
-    file_handler.setFormatter(Formatter('%(asctime)s:[%(levelname)s]%(message)s'))
-    basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
-
+    logger.info('launch application')
     # main()
     test()
+    logger.info('exit application')

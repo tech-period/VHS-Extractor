@@ -98,6 +98,12 @@ class view():
         # ウィンドウのループ処理
         self.win.mainloop()
 
+        # ウィンドウが閉じた際のチェック処理
+        if self.info['flag'] == False:
+            self.logger.info('exit without recording')
+            exit()
+        self.logger.info('start recording')
+
     # ウィンドウが中心に配置される座標を取得
     def get_center_position(self):
         def calc(a,b): return int((a-b)/2)
