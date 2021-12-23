@@ -119,3 +119,8 @@ token.py
 # line bot's user id
 users.py
 
+# shelve's file
+entity.bak
+entity.dat
+entity.dir
+
