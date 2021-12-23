@@ -16,7 +16,7 @@ class service():
 
     def get_last_file(self, path:str) -> str:
         # ディレクトリの存在確認
-        self.logger.info('check reced file')
+        self.logger.info('check reced file in '+path)
         if os.path.exists(path): 
             # ディレクトリ内で作成日が一番新しいファイル（拡張子:指定なし）を返す
             path += "\\*"
@@ -28,16 +28,16 @@ class service():
             self.logger.exception('not found files')
             raise FileNotFoundError
 
-    def copy_made_file(self, file_path:str, drive:str, type:str) -> None:
+    def copy_made_file(self, file_path:str, drive:str, type:str, save_name:str) -> None:
         # ユーザープロファイルが存在するドライブの場合はコピーせずに終了
         if drive == os.environ['USERPROFILE'][0:2]: 
             self.logger.info('selected drive contains user profile and was not copied')
             return
 
         # 指定されたドライブにファイルをコピー
-        self.logger.info('try copy a file')
+        self.logger.info('try copy')
         tar_path = drive + "\\ビデオテープ\\" + type
-        base_name = os.path.basename(file_path)
+        base_name = os.path.basename(file_path) if save_name == '' else save_name+'.mpg'
         # フォルダが存在しない場合は新規作成
         if os.path.exists(tar_path) == False : 
             self.logger.info('make a directory : '+tar_path)
@@ -51,6 +51,8 @@ class service():
                 i += 1
             else:
                 tar_path += "\\{}({}){}".format(name, i, ext)
+        else:
+            tar_path += "\\"+base_name
         shutil.copy2(file_path, tar_path)
         self.logger.info('copy completed')
 

@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import subprocess as sp
@@ -12,6 +13,7 @@ class service():
         self.dic = dic()
         # デフォルトのアプリインストールパス
         self.app_path = "C:\\Program Files (x86)\\I-O DATA\\LightCapture\\LightCapture.exe"
+        self.default_download_path = os.environ['USERPROFILE']+"\\Videos\\LightCapture"
 
     # アプリを起動
     def stard_light_capture(self):
