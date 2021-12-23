@@ -16,12 +16,8 @@ basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
 logger = getLogger(__name__)
 
 def main():
-    view = v()
-    if not view.exe_flag:
-        print("実行せずに終了")
-        exit()
-    
     # 各サービスをインスタンス化
+    view = v()    
     core_srv = core_service()
     lc_srv = lc_service()
     sb_srv = sb_service()
@@ -53,17 +49,31 @@ def main():
     lb_srv.push_message("VHSのデータ化が完了しました")
 
 def test():
-    view = v()
     
     # 各サービスをインスタンス化
-    # core_srv = core_service()
+    view = v()
+    core_srv = core_service()
     lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
-    # ダウンロードフォルダ内で最後に作成されたファイルをコピー
-    # file_path = core_srv.get_last_file("C:\\Users\\goter\\Downloads")
-    # core_srv.copy_made_file(file_path, "D:", "8mm")
+    exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
+    # print(exe_flag)
+    # for i in range(2):
+    #     exe_flag.append(view.info['conditions'][i]['check'])
+    if all(exe_flag):
+        # 2回実行
+        print('double')
+    else:
+        print('single')
+        # どちらにチェックが付いていたか判定
+        seq = 0 if exe_flag[0] else 1
+        # ダウンロードフォルダ内で最後に作成されたファイルをコピー
+        file_path = core_srv.get_last_file(lc_srv.default_download_path)
+        core_srv.copy_made_file(file_path,
+                                view.info['drive'],
+                                view.info['conditions'][seq]['type'],
+                                view.info['conditions'][seq]['name'])
     # lb_srv.push_message("おテストおメッセージその１")
     # lb_srv.push_message("おテストおメッセージその２")
 
