@@ -1,3 +1,5 @@
+from logging import getLogger
+
 import os
 import sys
 import time
@@ -9,6 +11,7 @@ from .dic import dic
 class service():
 
     def __init__(self) -> None:
+        self.logger = getLogger(__name__)
         # 操作一覧モデルをインスタンス化
         self.dic = dic()
         # デフォルトのアプリインストールパス
@@ -17,13 +20,13 @@ class service():
 
     # アプリを起動
     def stard_light_capture(self):
-        print("LightCaptureを起動")
+        self.logger.info("LightCaptureを起動")
         try:
             sp.Popen(self.app_path)
-            print("wait 3 sec")
+            self.logger.info("wait 3 sec")
             time.sleep(3)
         except Exception as e:
-            print(e)
+            self.logger.info(e)
             sys.exit(0)
 
     # 録画開始
@@ -55,18 +58,18 @@ class service():
     def check_end_rec(self, try_count:int = 3600) -> bool:
         for tryCount in range(try_count):
             tryCount += 1
-            print("checking the end of recording [" + str(tryCount) + "]")
+            self.logger.info("checking the end of recording [" + str(tryCount) + "]")
             try:
                 x,y = gui.locateCenterOnScreen(self.dic.get("finished"))
-                print("detected the end of recording")
+                self.logger.info("detected the end of recording")
                 break
             except Exception as e:
                 if(tryCount < try_count):
-                    print("recording...")
+                    self.logger.info("recording...")
                     time.sleep(9)
                     continue
                 else:
-                    print(e)
+                    self.logger.info(e)
                     return False
         return True
 
@@ -74,15 +77,15 @@ class service():
     def __click_button(self, key:str, try_count:int = 3, add_x:int = 0, add_y:int = 0):
         for tryCount in range(try_count):
             tryCount += 1
-            print("try " + key + " button [" + str(tryCount) + "]")
+            self.logger.info("try " + key + " button [" + str(tryCount) + "]")
             try:
                 x,y = gui.locateCenterOnScreen(self.dic.get(key))
-                print("click "+key+" button")
+                self.logger.info("click "+key+" button")
                 gui.click(x+add_x, y+add_y)
                 break
             except Exception as e:
                 if(tryCount < try_count):
-                    print("button is not found. wait a sec")
+                    self.logger.info("button is not found. wait a sec")
                     time.sleep(1)
                     continue
                 else:
@@ -90,4 +93,4 @@ class service():
 
     # ボタン検出失敗時
     def __find_nothing(self):
-        print("タイムアウト：対象が見つかりませんでした")
+        self.logger.info("タイムアウト：対象が見つかりませんでした")
