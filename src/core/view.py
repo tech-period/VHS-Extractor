@@ -1,3 +1,5 @@
+from logging import getLogger
+
 import tkinter
 from tkinter import ttk as ttk
 
@@ -24,16 +26,20 @@ class view():
     }
 
     def __init__(self) -> None:
+        self.logger = getLogger(__name__)
+
         # サービスのインスタンス化
         srv = service()
         self.e = entity()
 
         # 前回条件のロード
+        self.logger.info('load last condition')
         self.info['drive'] = self.e.get('drive')
         for i in range(2):
             self.info['conditions'][i]['type'] = self.e.get('type',i)
             self.info['conditions'][i]['check'] = self.e.get('check',i)
         # ウィンドウの作成
+        self.logger.info('create a main window')
         self.win = tkinter.Tk()
         self.win.title('VHS Extractor')
 
@@ -111,7 +117,7 @@ class view():
 
     # イベント処理
     def exe_app(self):
-        print("実行ボタンが押されました")
+        self.logger.info('exe button was pressed')
         self.info['flag'] = True
         # infoとエンティティに格納
         self.info['drive'] = self.dropdown_box.get()
@@ -122,6 +128,13 @@ class view():
             self.e.set('type', self.info['conditions'][i]['type'], i)
             self.e.set('check', self.info['conditions'][i]['check'], i)
         self.e.close()
+        self.logger.info('save infomation. '
+                            +'drive :"'+self.info['drive']+'", '
+                            +'type_1:"'+self.info['conditions'][0]['type']+'", '
+                            +'check_1:'+str(self.info['conditions'][0]['check'])+', '
+                            +'type_2:"'+self.info['conditions'][1]['type']+'", '
+                            +'check_2:'+str(self.info['conditions'][1]['check'])
+                        )
 
         # ウィンドウを閉じる
         self.win.quit()
