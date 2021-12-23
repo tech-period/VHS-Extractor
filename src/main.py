@@ -10,7 +10,7 @@ from switchbot.service import service as sb_service
 # ログ設定
 stream_handler = StreamHandler()
 stream_handler.setFormatter(Formatter('[%(levelname)s]%(message)s'))
-file_handler = FileHandler(f"logs.log")
+file_handler = FileHandler(f"logs.log",encoding='utf-8')
 file_handler.setFormatter(Formatter('%(asctime)s:[%(levelname)s]%(message)s'))
 basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
 logger = getLogger(__name__)
