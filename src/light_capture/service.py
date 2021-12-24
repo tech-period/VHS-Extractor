@@ -23,7 +23,7 @@ class service():
         self.logger.info("LightCaptureを起動")
         try:
             sp.Popen(self.app_path)
-            self.logger.info("wait 3 sec")
+            self.logger.debug("wait 3 sec")
             time.sleep(3)
         except Exception as e:
             self.logger.info(e)
@@ -78,7 +78,7 @@ class service():
                 break
             except Exception as e:
                 if(tryCount < try_count):
-                    self.logger.info("recording...")
+                    self.logger.info("recording["+try_count+"]...")
                     time.sleep(9)
                     continue
                 else:
@@ -98,7 +98,7 @@ class service():
                 break
             except Exception as e:
                 if(tryCount < try_count):
-                    self.logger.info("button is not found. wait a sec")
+                    self.logger.debug("button is not found. wait a sec")
                     time.sleep(1)
                     continue
                 else:
