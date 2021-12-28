@@ -92,9 +92,24 @@ def test():
         lc_srv.exit()
         exit()
 
+def demo():
+    # 各サービスをインスタンス化
+    # view = v()
+    # core_srv = core_service()
+    # lc_srv = lc_service()
+    sb_srv = sb_service()
+    # lb_srv = lb_service()
+    # Switchbotを操作
+    sb_srv.execute_command("play", 10)
+
+    sb_srv.execute_command("pause", 5)
+    sb_srv.execute_command("pause", 5)
+    sb_srv.execute_command("stop", 5)
+
 # root method
 if __name__ == "__main__":
     logger.info('launch application')
     # main()
-    test()
+    # test()
+    demo()
     logger.info('exit application')

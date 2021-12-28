@@ -1,17 +1,19 @@
 class commands():
 
     def __init__(self) -> None:
-        self.command_list = {
         # <python側の呼び名>：<Andrroidアプリ側で設定したボタン名>
+        self.command_list = {
+
+        # VHS
         # 基本コマンド
         "power" : "電源",
-        "home" : "ホーム",
-        "enter" : "決定",
-        # 矢印コマンド
-        "up" : "上",
-        "down" : "下",
-        "right" : "右",
-        "left" : "左",
+        "play" : "再生",
+        "pause" : "一時停止",
+        "stop" : "停止",
+        "back" : "巻き戻し",
+        "video8" : "Video8",
+        "vhs" : "VHS",
+        "reject" : "取り出し",
     }
 
     def get_command(self, command_name:str):        

@@ -14,7 +14,7 @@ class service():
         self.devices  = json.loads(self.__response.text)
 
         # Get "deviceId"
-        self.bot_id  = [device["deviceId"] for device in self.devices['body']['infraredRemoteList'] if "レコーダー" == device['deviceName']]
+        self.bot_id  = [device["deviceId"] for device in self.devices['body']['infraredRemoteList'] if "VHSデッキ" == device['deviceName']]
 
         print(self.__response.text)
 
