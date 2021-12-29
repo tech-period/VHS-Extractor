@@ -12,6 +12,14 @@ class dic():
             "ok" : "ok_button.png",
             "cancel" : "cancel_button.png",
             "exit" : "exit_button.png",
+
+            "mov_format_category" : "movie_format_category.png",
+            "selected_s_term" : "selected_s_terminal.png",
+            "selected_composite" : "selected_composite.png",
+            "other_category" : "other_category.png",
+            "disp_front" : "display_on_the_front.png",
+            "text_disp_front" : "text_display_on_the_front.png",
+            "off_display" : "off_display2.png",
         }
 
     # getter
