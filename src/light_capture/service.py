@@ -4,6 +4,7 @@ import os
 import sys
 import time
 import subprocess as sp
+from PIL.ImageOps import grayscale
 import pyautogui as gui
 
 from .dic import dic
@@ -50,12 +51,6 @@ class service():
     def stop_rec(self):
         self.__click_button("stop")
 
-    # 設定を開く
-    def open_settings(self):
-        self.__click_button("setting")
-        # ダイアログが開くため１秒待機
-        time.sleep(1)
-
     # 保存先を変更
     def change_destination(self, destination):
         self.__click_button("destination",add_x=200, add_y=0)
@@ -69,22 +64,67 @@ class service():
 
     # 録画終了を監視
     def check_end_rec(self, try_count:int = 3600) -> bool:
+        self.logger.info("checking the end of recording [" + str(try_count) + "]times")
         for tryCount in range(try_count):
             tryCount += 1
-            self.logger.info("checking the end of recording [" + str(tryCount) + "]")
             try:
-                x,y = gui.locateCenterOnScreen(self.dic.get("finished"))
+                print(tryCount)
+                x,y = gui.locateCenterOnScreen(self.dic.get("off_display"))
+                # x,y = gui.locateCenterOnScreen(self.dic.get("setting"))
                 self.logger.info("detected the end of recording")
+                # self.__click_button("stop")
                 break
             except Exception as e:
                 if(tryCount < try_count):
-                    self.logger.info("recording["+try_count+"]...")
-                    time.sleep(9)
+                    self.logger.info("recording["+str(tryCount)+"]...")
+                    time.sleep(1)
                     continue
                 else:
                     self.logger.info(e)
                     return False
         return True
+
+    def check_end_rec_demo(self, try_count:int = 3600) -> bool:
+        while True:
+                image = gui.locateOnScreen(self.dic.get("off_display"))
+                # image = gui.locateOnScreen(self.dic.get("off_display"), confidence=0.9)
+                if image is None:
+                    pass
+                elif image is not None:
+                    time.sleep(1)
+                    print("finished")
+                    break
+                else:pass
+    # 初期設定（S端子による録画と常に前面表示に変更）
+    def change_initial_settings(self):
+        self.__open_settings()
+        self.__change_s_terminal()
+        self.__change_dis_front()
+        self.__click_button("ok")
+
+    # 設定を開く
+    def __open_settings(self):
+        self.__click_button("setting")
+        # ダイアログが開くため１秒待機
+        time.sleep(1)
+
+    # S端子録画に変更
+    def __change_s_terminal(self):
+        self.__click_button("mov_format_category")
+        try:
+            x,y = gui.locateCenterOnScreen(self.dic.get("selected_s_term"))
+        except Exception:
+            self.__click_button("selected_composite")
+            gui.press('down')
+            gui.press('enter')
+
+    # 常に前面に表示へ変更
+    def __change_dis_front(self):
+        self.__click_button("other_category")
+        try:
+            x,y = gui.locateCenterOnScreen(self.dic.get("disp_front"))
+        except Exception:
+            self.__click_button("text_disp_front", add_x=-10)
 
     # ボタンをクリックする
     def __click_button(self, key:str, try_count:int = 3, add_x:int = 0, add_y:int = 0):
