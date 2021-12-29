@@ -16,8 +16,9 @@ basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
 logger = getLogger(__name__)
 
 def main():
+    
     # 各サービスをインスタンス化
-    view = v()    
+    view = v()
     core_srv = core_service()
     lc_srv = lc_service()
     sb_srv = sb_service()
@@ -25,74 +26,71 @@ def main():
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
-
-    # 設定画面を開く
-    # lc_srv.open_settings()
-
-    # 録画開始
-    lc_srv.start_rec()
-
-    # 保存先を変更
-    # path = str("C:\\Users\\goter\\Videos\\Captures")
-    # lc_srv.change_destination(path)
-
-    # Switchbotを操作
-    sb_srv.execute_command("power", 15)
-
-    sb_srv.execute_command("power", 10)
-
-    # 録画の自動終了を監視
-    if lc_srv.check_end_rec():
-        # アプリを閉じる
-        lc_srv.exit()
-
-    lb_srv.push_message("VHSのデータ化が完了しました")
-
-def test():
-    
-    # 各サービスをインスタンス化
-    view = v()
-    core_srv = core_service()
-    lc_srv = lc_service()
-    # sb_srv = sb_service()
-    # lb_srv = lb_service()
-
-    # LightCaptureを起動
-    lc_srv.stard_light_capture()
+    # Todo
+    # S端子からの抽出になっているか確認
+    # 「常に最前面に表示する」にチェックが入っているか確認
 
     # light captureの起動を確認
     if lc_srv.check_run() == False:
-        # lb_srv.push_message("Light Captureアプリの起動に失敗しました"
-        #                     +"\n以下の状態を確認してください"
-        #                     +"\n・機器に接続されているかどうか"
-        #                     +"\n・画面上にアプリの画面がない（設定ボタンが隠れていると認識しません）"
-        #                     +"\n・アプリの更新等のメッセージで止まっている")
+        lb_srv.push_message("Light Captureアプリの起動に失敗しました"
+                            +"\n以下の状態を確認してください"
+                            +"\n・機器に接続されているかどうか"
+                            +"\n・画面上にアプリの画面がない（設定ボタンが隠れていると認識しません）"
+                            +"\n・アプリの更新等のメッセージで止まっている")
         exit()
 
-    # 録画開始
+    # 録画処理
     try:
         exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
         for i in range(2):
             if exe_flag[i] == False: continue
+            # ビデオデッキの準備
+            sb_srv.execute_command('video8' if i == 0 else 'vhs', 2)
+            sb_srv.execute_command('stop', 2)
+            sb_srv.execute_command('back', 180)
+            sb_srv.execute_command('stop', 2)
+
+            # 録画開始
+            lc_srv.start_rec()
+            sb_srv.execute_command('play', 2)
+            lc_srv.check_end_rec()
+            sb_srv.execute_command('stop', 2)
+
+            # ファイルコピー
             file_path = core_srv.get_last_file(lc_srv.default_download_path)
             core_srv.copy_made_file(file_path,
                                     view.info['drive'],
                                     view.info['conditions'][i]['type'],
                                     view.info['conditions'][i]['name'])
-            # lb_srv.push_message("ビデオの抽出が完了しました"
-            #                     +"\nビデオ形式："+view.info['conditions'][i]['type']
-            #                     +"\nファイル名："+view.info['conditions'][i]['name'])
-            # if i == 0 and exe_flag[i+1]:
-            #     lb_srv.push_message("続けて"+view.info['conditions'][i+1]['type']+"の抽出を開始します")
+            lb_srv.push_message("ビデオの抽出が完了しました"
+                                +"\nビデオ形式："+view.info['conditions'][i]['type']
+                                +"\nファイル名："+view.info['conditions'][i]['name'])
+            if i == 0 and exe_flag[i+1]:
+                lb_srv.push_message("続けて"+view.info['conditions'][i+1]['type']+"の抽出を開始します")
+
+        # LightCaputureアプリを閉じる
+        lc_srv.exit()
+
+        # 両ビデオテープを巻き戻す
+        for i in range(2):
+            sb_srv.execute_command('video8' if i == 0 else 'vhs', 5)
+            sb_srv.execute_command('back', 180)
+            sb_srv.execute_command('stop', 2)
+            sb_srv.execute_command('reject', 5)
+
+        # 終了メッセージを送信
+        lb_srv.push_message("全行程が終了しました\nビデオテープを取り出してください")
+
+    # 処理中の例外発生時
     except Exception as e:
         logger.exception('catched exception')
-        # lb_srv.push_message('録画中にエラーが発生したため、アプリが途中で終了しました'
-        #                     +'\n管理者にお問い合わせください')
+        lb_srv.push_message('録画中にエラーが発生したため、アプリが途中で終了しました'
+                            +'\n管理者にお問い合わせください')
         logger.info('exit application with exception')
         lc_srv.exit()
         exit()
 
-def demo():
+def test():
     # 各サービスをインスタンス化
     # view = v()
     # core_srv = core_service()
@@ -110,6 +108,5 @@ def demo():
 if __name__ == "__main__":
     logger.info('launch application')
     # main()
-    # test()
-    demo()
+    test()
     logger.info('exit application')

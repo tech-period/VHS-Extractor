@@ -4,8 +4,7 @@ class commands():
         # <python側の呼び名>：<Andrroidアプリ側で設定したボタン名>
         self.command_list = {
 
-        # VHS
-        # 基本コマンド
+        # ビデオデッキ
         "power" : "電源",
         "play" : "再生",
         "pause" : "一時停止",
