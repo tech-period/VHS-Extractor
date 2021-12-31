@@ -1,5 +1,6 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 from logging import getLogger
+import time
 
 from core.view import view as v
 from core.service import service as core_service
@@ -53,7 +54,8 @@ def main():
             # 録画開始
             lc_srv.start_rec()
             sb_srv.execute_command('play', 2)
-            lc_srv.check_end_rec()
+            print("wait "+ view.info['conditions'][i]['time'] + "sec")
+            time.sleep(int(view.info['conditions'][i]['time'])*60)
             sb_srv.execute_command('stop', 2)
 
             # ファイルコピー
@@ -98,12 +100,19 @@ def test():
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
-    # Switchbotを操作
-    # sb_srv.execute_command("play", 10)
-
-    # sb_srv.execute_command("pause", 5)
-    # sb_srv.execute_command("pause", 5)
-    # sb_srv.execute_command("stop", 5)
+    # 録画処理
+    try:
+        exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
+        for i in range(2):
+            if exe_flag[i] == False: continue
+            print("wait "+ view.info['conditions'][i]['time'] + "sec")
+            time.sleep(int(view.info['conditions'][i]['time']))
+            print('stop')
+    # 処理中の例外発生時
+    except Exception as e:
+        logger.exception('catched exception')
+        logger.info('exit application with exception')
+        exit()
 
     pass
 
