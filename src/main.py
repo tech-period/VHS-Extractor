@@ -1,5 +1,6 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 from logging import getLogger
+import time
 
 from core.view import view as v
 from core.service import service as core_service
@@ -12,7 +13,7 @@ stream_handler = StreamHandler()
 stream_handler.setFormatter(Formatter('[%(levelname)s]%(message)s'))
 file_handler = FileHandler(f"logs.log",encoding='utf-8')
 file_handler.setFormatter(Formatter('%(asctime)s:[%(levelname)s]%(message)s'))
-basicConfig(handlers=[stream_handler,file_handler], level=DEBUG)
+basicConfig(handlers=[stream_handler,file_handler], level=INFO)
 logger = getLogger(__name__)
 
 def main():
@@ -26,9 +27,6 @@ def main():
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
-    # Todo
-    # S端子からの抽出になっているか確認
-    # 「常に最前面に表示する」にチェックが入っているか確認
 
     # light captureの起動を確認
     if lc_srv.check_run() == False:
@@ -39,6 +37,9 @@ def main():
                             +"\n・アプリの更新等のメッセージで止まっている")
         exit()
 
+    # アプリの初期設定
+    lc_srv.change_initial_settings()
+
     # 録画処理
     try:
         exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
@@ -47,14 +48,22 @@ def main():
             # ビデオデッキの準備
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 2)
             sb_srv.execute_command('stop', 2)
-            sb_srv.execute_command('back', 180)
+            # sb_srv.execute_command('back', 180)
+            sb_srv.execute_command('back', 2)
             sb_srv.execute_command('stop', 2)
 
             # 録画開始
-            lc_srv.start_rec()
             sb_srv.execute_command('play', 2)
-            lc_srv.check_end_rec()
-            sb_srv.execute_command('stop', 2)
+            lc_srv.start_rec()
+
+            if True:
+                # 録画終了を監視
+                lc_srv.check_end_rec()
+            else:
+                pass
+                # 2時間待機
+                # time.sleep(60*60*2)
+                # sb_srv.execute_command('stop', 2)
 
             # ファイルコピー
             file_path = core_srv.get_last_file(lc_srv.default_download_path)
@@ -73,6 +82,7 @@ def main():
 
         # 両ビデオテープを巻き戻す
         for i in range(2):
+            if exe_flag[i] == False: continue
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 5)
             sb_srv.execute_command('back', 180)
             sb_srv.execute_command('stop', 2)
@@ -94,15 +104,15 @@ def test():
     # 各サービスをインスタンス化
     # view = v()
     # core_srv = core_service()
-    # lc_srv = lc_service()
-    sb_srv = sb_service()
+    lc_srv = lc_service()
+    # sb_srv = sb_service()
     # lb_srv = lb_service()
-    # Switchbotを操作
-    sb_srv.execute_command("play", 10)
 
-    sb_srv.execute_command("pause", 5)
-    sb_srv.execute_command("pause", 5)
-    sb_srv.execute_command("stop", 5)
+    # 録画終了を監視
+    # lc_srv.change_initial_settings()
+    lc_srv.check_end_rec()
+
+    pass
 
 # root method
 if __name__ == "__main__":
