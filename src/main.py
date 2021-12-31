@@ -56,14 +56,8 @@ def main():
             sb_srv.execute_command('play', 2)
             lc_srv.start_rec()
 
-            if True:
-                # 録画終了を監視
-                lc_srv.check_end_rec()
-            else:
-                pass
-                # 2時間待機
-                # time.sleep(60*60*2)
-                # sb_srv.execute_command('stop', 2)
+            # 録画終了を監視
+            lc_srv.check_end_rec()
 
             # ファイルコピー
             file_path = core_srv.get_last_file(lc_srv.default_download_path)
