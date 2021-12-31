@@ -17,7 +17,7 @@ class service():
         self.dic = dic()
         # デフォルトのアプリインストールパス
         self.app_path = "C:\\Program Files (x86)\\I-O DATA\\LightCapture\\LightCapture.exe"
-        self.default_download_path = os.environ['USERPROFILE']+"\\Videos\\LightCapture"
+        self.default_download_path = os.environ['USERPROFILE']+"\\Documents\\Light Capture 録画フォルダ"
 
     # アプリを起動
     def stard_light_capture(self):
@@ -46,6 +46,8 @@ class service():
     # 録画開始
     def start_rec(self):
         self.__click_button("rec")
+        # 画面が録画状態になるまでタイムラグが生じるため3秒待機
+        time.sleep(3)
 
     # 録画終了
     def stop_rec(self):
@@ -69,7 +71,7 @@ class service():
             tryCount += 1
             try:
                 print(tryCount)
-                x,y = gui.locateCenterOnScreen(self.dic.get("off_display"))
+                x,y = gui.locateCenterOnScreen(self.dic.get("finished"))
                 # x,y = gui.locateCenterOnScreen(self.dic.get("setting"))
                 self.logger.info("detected the end of recording")
                 # self.__click_button("stop")
@@ -77,24 +79,13 @@ class service():
             except Exception as e:
                 if(tryCount < try_count):
                     self.logger.info("recording["+str(tryCount)+"]...")
-                    time.sleep(1)
+                    time.sleep(10)
                     continue
                 else:
                     self.logger.info(e)
                     return False
         return True
 
-    def check_end_rec_demo(self, try_count:int = 3600) -> bool:
-        while True:
-                image = gui.locateOnScreen(self.dic.get("off_display"))
-                # image = gui.locateOnScreen(self.dic.get("off_display"), confidence=0.9)
-                if image is None:
-                    pass
-                elif image is not None:
-                    time.sleep(1)
-                    print("finished")
-                    break
-                else:pass
     # 初期設定（S端子による録画と常に前面表示に変更）
     def change_initial_settings(self):
         self.__open_settings()

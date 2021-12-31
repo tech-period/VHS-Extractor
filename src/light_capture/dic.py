@@ -19,7 +19,6 @@ class dic():
             "other_category" : "other_category.png",
             "disp_front" : "display_on_the_front.png",
             "text_disp_front" : "text_display_on_the_front.png",
-            "off_display" : "off_display2.png",
         }
 
     # getter
