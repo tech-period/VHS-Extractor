@@ -1,4 +1,5 @@
 from logging import getLogger
+from sys import exit
 
 import tkinter
 from tkinter import ttk as ttk

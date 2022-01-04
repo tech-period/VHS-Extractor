@@ -1,5 +1,6 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 from logging import getLogger
+from sys import exit
 import time
 
 from core.view import view as v
