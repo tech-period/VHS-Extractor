@@ -27,9 +27,8 @@ def main():
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
-    # Todo
-    # S端子からの抽出になっているか確認
-    # 「常に最前面に表示する」にチェックが入っているか確認
+    time.sleep(3)
+    lc_srv.change_initial_settings()
 
     # light captureの起動を確認
     if lc_srv.check_run() == False:
@@ -48,14 +47,16 @@ def main():
             # ビデオデッキの準備
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 2)
             sb_srv.execute_command('stop', 2)
-            sb_srv.execute_command('back', 180)
+            sb_srv.execute_command('back', 10)
+            # sb_srv.execute_command('back', 180)
             sb_srv.execute_command('stop', 2)
 
             # 録画開始
             lc_srv.start_rec()
             sb_srv.execute_command('play', 2)
-            print("wait "+ view.info['conditions'][i]['time'] + "sec")
+            print("wait "+ view.info['conditions'][i]['time'] + "min")
             time.sleep(int(view.info['conditions'][i]['time'])*60)
+            lc_srv.stop_rec()
             sb_srv.execute_command('stop', 2)
 
             # ファイルコピー
@@ -119,6 +120,6 @@ def test():
 # root method
 if __name__ == "__main__":
     logger.info('launch application')
-    # main()
-    test()
+    main()
+    # test()
     logger.info('exit application')

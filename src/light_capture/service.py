@@ -51,7 +51,10 @@ class service():
 
     # 録画終了
     def stop_rec(self):
-        self.__click_button("stop")
+        try:
+            self.__click_button("stop")
+        except:
+            pass
 
     # 保存先を変更
     def change_destination(self, destination):
