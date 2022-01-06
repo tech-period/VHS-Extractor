@@ -36,6 +36,7 @@ class service():
         result = False
         # 画面上に設定ボタンがあるかどうかで起動を判定
         try:
+            self.logger.info(self.dic.get("setting"))
             x,y = gui.locateCenterOnScreen(self.dic.get("setting"))
             self.logger.info("startup succeeded")
             result = True
@@ -126,6 +127,7 @@ class service():
             tryCount += 1
             self.logger.info("try " + key + " button [" + str(tryCount) + "]")
             try:
+                self.logger.info(self.dic.get(key))
                 x,y = gui.locateCenterOnScreen(self.dic.get(key))
                 self.logger.info("click "+key+" button")
                 gui.click(x+add_x, y+add_y)
