@@ -74,7 +74,7 @@ class service():
         for tryCount in range(try_count):
             tryCount += 1
             try:
-                print(tryCount)
+                # print(tryCount)
                 x,y = gui.locateCenterOnScreen(self.dic.get("finished"))
                 # x,y = gui.locateCenterOnScreen(self.dic.get("setting"))
                 self.logger.info("detected the end of recording")

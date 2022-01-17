@@ -5,15 +5,20 @@ class dic():
         self.__asset_path = "./datas/"
         self.__dic = {
             # 操作名：対応画像
+            # ボタン関連
             "rec" : "rec_button.png",
             "stop" : "stop_button.png",
-            "finished" : "finished_rec_button.png",
             "setting" : "setting_button.png",
-            "destination" : "destination.png",
             "ok" : "ok_button.png",
             "cancel" : "cancel_button.png",
             "exit" : "exit_button.png",
 
+            # 状態関連
+            "finished" : "finished_rec_button.png",
+            "status_rec" : "status_rec.png",
+
+            # 初期設定関連
+            "destination" : "destination.png",
             "mov_format_category" : "movie_format_category.png",
             "selected_s_term" : "selected_s_terminal.png",
             "selected_composite" : "selected_composite.png",
