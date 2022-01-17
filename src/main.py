@@ -1,12 +1,8 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 from logging import getLogger
-<<<<<<< HEAD
 from sys import exit
 import time
 import threading
-=======
-import time
->>>>>>> main
 
 from core.view import view as v
 from core.service import service as core_service
@@ -33,10 +29,7 @@ def main():
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
-<<<<<<< HEAD
     time.sleep(3)
-=======
->>>>>>> main
 
     # light captureの起動を確認
     if lc_srv.check_run() == False:
@@ -47,11 +40,7 @@ def main():
                             +"\n・アプリの更新等のメッセージで止まっている")
         exit()
 
-<<<<<<< HEAD
     # 初期設定
-=======
-    # アプリの初期設定
->>>>>>> main
     lc_srv.change_initial_settings()
 
     # 録画処理
@@ -63,29 +52,18 @@ def main():
             # ビデオデッキの準備
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 2)
             sb_srv.execute_command('stop', 2)
-<<<<<<< HEAD
             # sb_srv.execute_command('back', 1)
             sb_srv.execute_command('back', 180)
-=======
-            # sb_srv.execute_command('back', 180)
-            sb_srv.execute_command('back', 2)
->>>>>>> main
             sb_srv.execute_command('stop', 2)
 
             # 録画開始
+            lc_srv.start_rec()
             sb_srv.execute_command('play', 2)
-<<<<<<< HEAD
             print("wait "+ view.info['conditions'][i]['time'] + "min")
             # time.sleep(int(view.info['conditions'][i]['time'])*10)
             time.sleep(int(view.info['conditions'][i]['time'])*60)
             lc_srv.stop_rec()
             sb_srv.execute_command('stop', 2)
-=======
-            lc_srv.start_rec()
-
-            # 録画終了を監視
-            lc_srv.check_end_rec()
->>>>>>> main
 
             # ファイルコピー（別スレッド）
             j = i
@@ -131,7 +109,6 @@ def test():
     # 各サービスをインスタンス化
     view = v()
     # core_srv = core_service()
-<<<<<<< HEAD
     # lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
@@ -149,15 +126,6 @@ def test():
         logger.exception('catched exception')
         logger.info('exit application with exception')
         exit()
-=======
-    lc_srv = lc_service()
-    # sb_srv = sb_service()
-    # lb_srv = lb_service()
-
-    # 録画終了を監視
-    # lc_srv.change_initial_settings()
-    lc_srv.check_end_rec()
->>>>>>> main
 
     pass
 
