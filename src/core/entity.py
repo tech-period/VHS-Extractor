@@ -10,8 +10,8 @@ class entity():
             self.entity['data'] = {
                 'drive' : 'C:',
                 'conditions': [
-                    {'type':'8mm, miniDV','check':True,},
-                    {'type':'VHS','check':False,}
+                    {'type':'8mm, miniDV', 'time':0, 'check':True,},
+                    {'type':'VHS', 'time':0, 'check':False,}
                 ]
             }
     
@@ -19,7 +19,7 @@ class entity():
         result = str()
         if key == 'drive':
             result = self.entity['data'][key]
-        elif key == 'type' or key == 'check':
+        elif key == 'type' or key == 'time' or key == 'check':
             result = self.entity['data']['conditions'][num][key]
         else:
             print('not found entity field')
@@ -30,7 +30,7 @@ class entity():
         locall_data = self.entity['data']
         if key == 'drive':
             locall_data[key] = data
-        elif key == 'type' or key == 'check':
+        elif key == 'type' or key == 'time' or key == 'check':
             locall_data['conditions'][num][key] = data
         else:
             print('not found entity field')

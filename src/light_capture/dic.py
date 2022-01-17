@@ -1,7 +1,8 @@
 class dic():
 
     def __init__(self) -> None:
-        self.__asset_path = "./src/light_capture/asset/"
+        # self.__asset_path = "./src/light_capture/asset/"
+        self.__asset_path = "./datas/"
         self.__dic = {
             # 操作名：対応画像
             # ボタン関連

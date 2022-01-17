@@ -1,3 +1,5 @@
+from logging import getLogger
+
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 
@@ -6,6 +8,7 @@ from .users import users
 
 class service():
     def __init__(self) -> None:
+        self.logger = getLogger(__name__)
         self.__LINE_ACCESS_TOKEN = token
         self.line_bot = LineBotApi(self.__LINE_ACCESS_TOKEN)
         self.users = users()
@@ -13,6 +16,6 @@ class service():
     def push_message(self, message:str):
         text_send_message = TextSendMessage(text=message)
         users = self.users.get_users()
-        print("push message to some accounts with [" + message + "]")
+        self.logger.info("push message to some accounts with [" + message + "]")
         for user_id in users:
             self.line_bot.push_message(user_id, messages=text_send_message)

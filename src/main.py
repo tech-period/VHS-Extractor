@@ -1,6 +1,8 @@
 from logging import basicConfig, Formatter, FileHandler, StreamHandler, DEBUG, INFO, WARNING
 from logging import getLogger
+from sys import exit
 import time
+import threading
 
 from core.view import view as v
 from core.service import service as core_service
@@ -27,6 +29,7 @@ def main():
 
     # LightCaptureを起動
     lc_srv.stard_light_capture()
+    time.sleep(3)
 
     # light captureの起動を確認
     if lc_srv.check_run() == False:
@@ -37,39 +40,45 @@ def main():
                             +"\n・アプリの更新等のメッセージで止まっている")
         exit()
 
-    # アプリの初期設定
+    # 初期設定
     lc_srv.change_initial_settings()
 
     # 録画処理
     try:
         exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
+        thread = []
         for i in range(2):
             if exe_flag[i] == False: continue
             # ビデオデッキの準備
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 2)
             sb_srv.execute_command('stop', 2)
-            # sb_srv.execute_command('back', 180)
-            sb_srv.execute_command('back', 2)
+            # sb_srv.execute_command('back', 1)
+            sb_srv.execute_command('back', 180)
             sb_srv.execute_command('stop', 2)
 
             # 録画開始
             sb_srv.execute_command('play', 2)
-            lc_srv.start_rec()
+            print("wait "+ view.info['conditions'][i]['time'] + "min")
+            # time.sleep(int(view.info['conditions'][i]['time'])*10)
+            time.sleep(int(view.info['conditions'][i]['time'])*60)
+            lc_srv.stop_rec()
+            sb_srv.execute_command('stop', 2)
 
-            # 録画終了を監視
-            lc_srv.check_end_rec()
-
-            # ファイルコピー
-            file_path = core_srv.get_last_file(lc_srv.default_download_path)
-            core_srv.copy_made_file(file_path,
-                                    view.info['drive'],
-                                    view.info['conditions'][i]['type'],
-                                    view.info['conditions'][i]['name'])
-            lb_srv.push_message("ビデオの抽出が完了しました"
-                                +"\nビデオ形式："+view.info['conditions'][i]['type']
-                                +"\nファイル名："+view.info['conditions'][i]['name'])
-            if i == 0 and exe_flag[i+1]:
-                lb_srv.push_message("続けて"+view.info['conditions'][i+1]['type']+"の抽出を開始します")
+            # ファイルコピー（別スレッド）
+            j = i
+            def file_copy():
+                file_path = core_srv.get_last_file(lc_srv.default_download_path)
+                core_srv.copy_made_file(file_path,
+                                        view.info['drive'],
+                                        view.info['conditions'][j]['type'],
+                                        view.info['conditions'][j]['name'])
+                lb_srv.push_message("ビデオの抽出が完了しました"
+                                    +"\nビデオ形式："+view.info['conditions'][j]['type']
+                                    +"\nファイル名："+view.info['conditions'][j]['name'])
+                if j == 0 and exe_flag[1]:
+                    lb_srv.push_message("続けて"+view.info['conditions'][j+1]['type']+"の抽出を開始します")
+            thread.append(threading.Thread(target=file_copy))
+            thread[i].start()
 
         # LightCaputureアプリを閉じる
         lc_srv.exit()
@@ -78,6 +87,7 @@ def main():
         for i in range(2):
             if exe_flag[i] == False: continue
             sb_srv.execute_command('video8' if i == 0 else 'vhs', 5)
+            # sb_srv.execute_command('back', 1)
             sb_srv.execute_command('back', 180)
             sb_srv.execute_command('stop', 2)
             sb_srv.execute_command('reject', 5)
@@ -96,21 +106,31 @@ def main():
 
 def test():
     # 各サービスをインスタンス化
-    # view = v()
+    view = v()
     # core_srv = core_service()
-    lc_srv = lc_service()
+    # lc_srv = lc_service()
     # sb_srv = sb_service()
     # lb_srv = lb_service()
 
-    # 録画終了を監視
-    # lc_srv.change_initial_settings()
-    lc_srv.check_end_rec()
+    # 録画処理
+    try:
+        exe_flag = [view.info['conditions'][i]['check'] for i in range(2)]
+        for i in range(2):
+            if exe_flag[i] == False: continue
+            print("wait "+ view.info['conditions'][i]['time'] + "sec")
+            time.sleep(int(view.info['conditions'][i]['time']))
+            print('stop')
+    # 処理中の例外発生時
+    except Exception as e:
+        logger.exception('catched exception')
+        logger.info('exit application with exception')
+        exit()
 
     pass
 
 # root method
 if __name__ == "__main__":
     logger.info('launch application')
-    # main()
-    test()
+    main()
+    # test()
     logger.info('exit application')
